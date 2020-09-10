@@ -36,8 +36,10 @@ pipeline {
         }
         stage ('API Test') {
             steps {
+                dir('api-test') {
                 git credentialsId: 'loginGitHub', url: 'https://github.com/marcelodebittencourt/udemy_francisco_tasks_api_test_integracao_continua'
                 bat 'mvn test'
+                }
             }
         }
     }
