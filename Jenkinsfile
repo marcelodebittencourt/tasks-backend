@@ -51,6 +51,14 @@ pipeline {
                 }                    
             }
         }
+        stage ('Functional Test') {
+            steps {
+                dir('functional-test') {
+                git credentialsId: 'loginGitHub', url: 'https://github.com/marcelodebittencourt/udemy_francisco_tasks_api_test_integracao_continua_functional_tests'
+                bat 'mvn test'
+                }
+            }
+        }
     }
 }
 
