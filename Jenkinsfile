@@ -37,8 +37,8 @@ pipeline {
         stage ('API Test') {
             steps {
                 dir('api-test') {
-                git credentialsId: 'loginGitHub', url: 'https://github.com/marcelodebittencourt/udemy_francisco_tasks_api_test_integracao_continua'
-                bat 'mvn test'
+                    git credentialsId: 'loginGitHub', url: 'https://github.com/marcelodebittencourt/udemy_francisco_tasks_api_test_integracao_continua'
+                    bat 'mvn test'
                 }
             }
         }
@@ -54,8 +54,8 @@ pipeline {
         stage ('Functional Test') {
             steps {
                 dir('functional-test') {
-                git credentialsId: 'loginGitHub', url: 'https://github.com/marcelodebittencourt/udemy_francisco_tasks_api_test_integracao_continua_functional_tests'
-                bat 'mvn test'
+                    git credentialsId: 'loginGitHub', url: 'https://github.com/marcelodebittencourt/udemy_francisco_tasks_api_test_integracao_continua_functional_tests'
+                    bat 'mvn test'
                 }
             }
         }
@@ -63,6 +63,14 @@ pipeline {
             steps {
                 bat 'docker-compose build'
                 bat 'docker-compose up -d'
+            }
+        }
+        stage ('Health Check') {
+            steps {
+                sleep(5)
+                dir('functional-test') {                
+                    bat 'mvn verify -Dskip.surefire.tests'
+                }
             }
         }
     }
